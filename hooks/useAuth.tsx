@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 import { AUTH_COOKIE_KEY, getToken, setToken, clearToken } from "@/utils/auth";
 import { appConfig } from "@/services/config";
 
@@ -13,21 +13,21 @@ type AuthContextData = {
 
 const AuthContext = createContext<AuthContextData | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setTokenState] = useState<string | null>(null);
+const getInitialToken = () => {
+  const existingToken = getToken();
+  if (existingToken) {
+    return existingToken;
+  }
+  if (appConfig.useMockAuth) {
+    const mockToken = appConfig.mockJwtToken;
+    setToken(mockToken);
+    return mockToken;
+  }
+  return null;
+};
 
-  useEffect(() => {
-    const existingToken = getToken();
-    if (existingToken) {
-      setTokenState(existingToken);
-      return;
-    }
-    if (appConfig.useMockAuth) {
-      const mockToken = appConfig.mockJwtToken;
-      setToken(mockToken);
-      setTokenState(mockToken);
-    }
-  }, []);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [token, setTokenState] = useState<string | null>(getInitialToken);
 
   const value = useMemo<AuthContextData>(
     () => ({

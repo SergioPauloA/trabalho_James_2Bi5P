@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { GroupFilters } from "@/components/task3/GroupFilters";
 import { GroupTable } from "@/components/task3/GroupTable";
 import { GrupoProjeto, GroupFiltersInput } from "@/types";
@@ -21,9 +21,11 @@ export default function GruposPage() {
   const [error, setError] = useState("");
   const [filters, setFilters] = useState<GroupFiltersInput>(initialFilters);
 
-  const loadData = async (activeFilters: GroupFiltersInput = filters) => {
-    setLoading(true);
-    setError("");
+  const loadData = useCallback(async (activeFilters: GroupFiltersInput, showLoading = true) => {
+    if (showLoading) {
+      setLoading(true);
+      setError("");
+    }
     try {
       const result = await getGrupos(activeFilters);
       setGroups(result);
@@ -32,16 +34,12 @@ export default function GruposPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    loadData();
   }, []);
 
   const hasActiveFilters = useMemo(() => Object.values(filters).some(Boolean), [filters]);
 
   const handleFilter = async () => {
-    await loadData();
+    await loadData(filters);
   };
 
   const handleDelete = async (id: string) => {
@@ -57,7 +55,7 @@ export default function GruposPage() {
         return;
       }
       await deleteGrupo(id);
-      await loadData();
+      await loadData(filters);
     } catch {
       setError("Erro ao excluir grupo.");
     }
