@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { getCatalogs } from "@/services/catalogService";
 import { getGrupos } from "@/services/grupoProjetoService";
+import { getErrorMessage } from "@/utils/errors";
 import { validateGrupoProjetoForm } from "@/utils/validation";
 import { CatalogData, GrupoProjeto, GrupoProjetoInput } from "@/types";
 
@@ -76,8 +77,8 @@ export function GroupForm({
     setSubmitting(true);
     try {
       await onSubmit(formState);
-    } catch {
-      setError("Falha ao salvar grupo de projeto.");
+    } catch (error) {
+      setError(getErrorMessage(error, "Falha ao salvar grupo de projeto."));
     } finally {
       setSubmitting(false);
     }

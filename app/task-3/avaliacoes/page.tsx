@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { saveAvaliacao } from "@/services/avaliacaoService";
 import { getGrupos } from "@/services/grupoProjetoService";
 import { GrupoProjeto } from "@/types";
+import { getErrorMessage } from "@/utils/errors";
 
 export default function AvaliacoesPage() {
   const [groups, setGroups] = useState<GrupoProjeto[]>([]);
@@ -38,8 +39,8 @@ export default function AvaliacoesPage() {
       setSuccess("Avaliação registrada com sucesso.");
       setNota("");
       setGroupId("");
-    } catch {
-      setError("Erro ao salvar avaliação.");
+    } catch (error) {
+      setError(getErrorMessage(error, "Erro ao salvar avaliação."));
     }
   };
 

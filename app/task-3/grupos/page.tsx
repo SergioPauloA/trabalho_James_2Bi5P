@@ -6,6 +6,7 @@ import { GroupFilters } from "@/components/task3/GroupFilters";
 import { GroupTable } from "@/components/task3/GroupTable";
 import { GrupoProjeto, GroupFiltersInput } from "@/types";
 import { canDeleteGrupo, deleteGrupo, getGrupos } from "@/services/grupoProjetoService";
+import { getErrorMessage } from "@/utils/errors";
 
 const initialFilters: GroupFiltersInput = {
   aluno: "",
@@ -29,8 +30,8 @@ export default function GruposPage() {
     try {
       const result = await getGrupos(activeFilters);
       setGroups(result);
-    } catch {
-      setError("Não foi possível carregar os grupos de projeto.");
+    } catch (error) {
+      setError(getErrorMessage(error, "Não foi possível carregar os grupos de projeto."));
     } finally {
       setLoading(false);
     }
@@ -56,8 +57,8 @@ export default function GruposPage() {
       }
       await deleteGrupo(id);
       await loadData(filters);
-    } catch {
-      setError("Erro ao excluir grupo.");
+    } catch (error) {
+      setError(getErrorMessage(error, "Erro ao excluir grupo."));
     }
   };
 

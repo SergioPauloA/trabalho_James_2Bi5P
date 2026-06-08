@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getErrorMessage } from "@/utils/errors";
 
 export function useApiRequest<T>() {
   const [loading, setLoading] = useState(false);
@@ -14,9 +15,10 @@ export function useApiRequest<T>() {
       const result = await request();
       setData(result);
       return result;
-    } catch {
-      setError("Falha ao processar requisição.");
-      throw new Error("Falha ao processar requisição.");
+    } catch (error) {
+      const message = getErrorMessage(error, "Falha ao processar requisição.");
+      setError(message);
+      throw new Error(message);
     } finally {
       setLoading(false);
     }
