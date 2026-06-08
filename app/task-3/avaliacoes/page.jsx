@@ -3,11 +3,10 @@
 import { useEffect, useState } from "react";
 import { saveAvaliacao } from "@/services/avaliacaoService";
 import { getGrupos } from "@/services/grupoProjetoService";
-import { GrupoProjeto } from "@/types";
 import { getErrorMessage } from "@/utils/errors";
 
 export default function AvaliacoesPage() {
-  const [groups, setGroups] = useState<GrupoProjeto[]>([]);
+  const [groups, setGroups] = useState([]);
   const [groupId, setGroupId] = useState("");
   const [nota, setNota] = useState("");
   const [error, setError] = useState("");
@@ -19,7 +18,7 @@ export default function AvaliacoesPage() {
       .catch(() => setError("Não foi possível carregar grupos para avaliação."));
   }, []);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
     setSuccess("");

@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { GrupoProjeto } from "@/types";
 import { getGrupoById } from "@/services/grupoProjetoService";
 
-export default function VisualizarGrupoPage({ params }: { params: Promise<{ id: string }> }) {
-  const [group, setGroup] = useState<GrupoProjeto | null>(null);
+export default function VisualizarGrupoPage({ params }) {
+  const [group, setGroup] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

@@ -5,9 +5,8 @@ import { getCatalogs } from "@/services/catalogService";
 import { getGrupos } from "@/services/grupoProjetoService";
 import { getErrorMessage } from "@/utils/errors";
 import { validateGrupoProjetoForm } from "@/utils/validation";
-import { CatalogData, GrupoProjeto, GrupoProjetoInput } from "@/types";
 
-const emptyCatalogs: CatalogData = {
+const emptyCatalogs = {
   cursos: [],
   periodosLetivos: [],
   turmas: [],
@@ -28,14 +27,10 @@ export function GroupForm({
   initialValue,
   submitLabel,
   onSubmit,
-}: {
-  initialValue?: GrupoProjeto;
-  submitLabel: string;
-  onSubmit: (input: GrupoProjetoInput) => Promise<void>;
 }) {
-  const [catalogs, setCatalogs] = useState<CatalogData>(emptyCatalogs);
-  const [existingGroups, setExistingGroups] = useState<GrupoProjeto[]>([]);
-  const [formState, setFormState] = useState<GrupoProjetoInput>(() => ({
+  const [catalogs, setCatalogs] = useState(emptyCatalogs);
+  const [existingGroups, setExistingGroups] = useState([]);
+  const [formState, setFormState] = useState(() => ({
     nome: initialValue?.nome || "",
     turmaId: initialValue?.turma.id || "",
     professorId: initialValue?.professor.id || "",
@@ -57,7 +52,7 @@ export function GroupForm({
     [catalogs.alunos, formState.turmaId],
   );
 
-  const toggleStudent = (id: string) => {
+  const toggleStudent = (id) => {
     if (formState.alunoIds.includes(id)) {
       setFormState({ ...formState, alunoIds: formState.alunoIds.filter((studentId) => studentId !== id) });
       return;
@@ -65,7 +60,7 @@ export function GroupForm({
     setFormState({ ...formState, alunoIds: [...formState.alunoIds, id] });
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setError("");
     const validation = validateGrupoProjetoForm(formState, existingGroups, initialValue?.id);

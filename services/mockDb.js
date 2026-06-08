@@ -1,42 +1,29 @@
-import {
-  Aluno,
-  AvaliacaoInput,
-  CatalogData,
-  Curso,
-  GrupoProjeto,
-  GrupoProjetoInput,
-  LocalApresentacao,
-  PeriodoLetivo,
-  Professor,
-  Turma,
-} from "@/types";
-
-const cursos: Curso[] = [
+const cursos = [
   { id: "c1", nome: "Engenharia de Software" },
   { id: "c2", nome: "Sistemas para Internet" },
 ];
 
-const periodosLetivos: PeriodoLetivo[] = [
+const periodosLetivos = [
   { id: "p1", nome: "2026.1" },
   { id: "p2", nome: "2026.2" },
 ];
 
-const turmas: Turma[] = [
+const turmas = [
   { id: "t1", nome: "ES-5A", cursoId: "c1", periodoLetivoId: "p1" },
   { id: "t2", nome: "SI-3B", cursoId: "c2", periodoLetivoId: "p2" },
 ];
 
-const professores: Professor[] = [
+const professores = [
   { id: "pr1", nome: "Prof. Ana Lima" },
   { id: "pr2", nome: "Prof. Carlos Souza" },
 ];
 
-const locais: LocalApresentacao[] = [
+const locais = [
   { id: "l1", nome: "Laboratório 1" },
   { id: "l2", nome: "Auditório" },
 ];
 
-const alunos: Aluno[] = [
+const alunos = [
   { id: "a1", nome: "Alice", turmaId: "t1" },
   { id: "a2", nome: "Bruno", turmaId: "t1" },
   { id: "a3", nome: "Caio", turmaId: "t1" },
@@ -49,7 +36,7 @@ const alunos: Aluno[] = [
   { id: "a10", nome: "João", turmaId: "t2" },
 ];
 
-let groups: (GrupoProjeto & { hasLinkedProject?: boolean })[] = [
+let groups = [
   {
     id: "g1",
     nome: "InovaTech",
@@ -78,9 +65,9 @@ let groups: (GrupoProjeto & { hasLinkedProject?: boolean })[] = [
   },
 ];
 
-const avaliacoes: { id: string; grupoId: string; nota: number }[] = [];
+const avaliacoes = [];
 
-const buildGroup = (input: GrupoProjetoInput, id: string): GrupoProjeto => {
+const buildGroup = (input, id) => {
   const turma = turmas.find((item) => item.id === input.turmaId);
   const professor = professores.find((item) => item.id === input.professorId);
   const local = locais.find((item) => item.id === input.localId);
@@ -107,7 +94,7 @@ const buildGroup = (input: GrupoProjetoInput, id: string): GrupoProjeto => {
 };
 
 export const mockDb = {
-  getCatalogs: (): CatalogData => ({
+  getCatalogs: () => ({
     cursos,
     periodosLetivos,
     turmas,
@@ -116,16 +103,10 @@ export const mockDb = {
     locais,
   }),
 
-  listGroups: (filters: {
-    aluno?: string;
-    professorId?: string;
-    turmaId?: string;
-    cursoId?: string;
-    periodoLetivoId?: string;
-  }): GrupoProjeto[] => {
+  listGroups: (filters) => {
     return groups.filter((group) => {
       const byAluno = filters.aluno
-        ? group.alunos.some((student) => student.nome.toLowerCase().includes(filters.aluno!.toLowerCase()))
+        ? group.alunos.some((student) => student.nome.toLowerCase().includes(filters.aluno.toLowerCase()))
         : true;
       const byProfessor = filters.professorId ? group.professor.id === filters.professorId : true;
       const byTurma = filters.turmaId ? group.turma.id === filters.turmaId : true;
@@ -135,7 +116,7 @@ export const mockDb = {
     });
   },
 
-  getGroupById: (id: string): GrupoProjeto => {
+  getGroupById: (id) => {
     const group = groups.find((item) => item.id === id);
     if (!group) {
       throw new Error("Grupo não encontrado");
@@ -143,13 +124,13 @@ export const mockDb = {
     return group;
   },
 
-  createGroup: (input: GrupoProjetoInput): GrupoProjeto => {
+  createGroup: (input) => {
     const group = buildGroup(input, `g${Date.now()}`);
     groups = [...groups, { ...group, hasLinkedProject: false }];
     return group;
   },
 
-  updateGroup: (id: string, input: GrupoProjetoInput): GrupoProjeto => {
+  updateGroup: (id, input) => {
     const existing = groups.find((item) => item.id === id);
     if (!existing) {
       throw new Error("Grupo não encontrado");
@@ -159,7 +140,7 @@ export const mockDb = {
     return updated;
   },
 
-  canDeleteGroup: (id: string): { canDelete: boolean; message?: string } => {
+  canDeleteGroup: (id) => {
     const group = groups.find((item) => item.id === id);
     if (!group) {
       throw new Error("Grupo não encontrado");
@@ -173,7 +154,7 @@ export const mockDb = {
     return { canDelete: true };
   },
 
-  deleteGroup: (id: string) => {
+  deleteGroup: (id) => {
     const existing = groups.some((item) => item.id === id);
     if (!existing) {
       throw new Error("Grupo não encontrado");
@@ -181,7 +162,7 @@ export const mockDb = {
     groups = groups.filter((item) => item.id !== id);
   },
 
-  saveAvaliacao: (input: AvaliacaoInput) => {
+  saveAvaliacao: (input) => {
     const group = groups.find((item) => item.id === input.grupoId);
     if (!group) {
       throw new Error("Grupo não encontrado para avaliação");

@@ -1,4 +1,4 @@
-export const isEndTimeAfterStart = (start: string, end: string) => {
+export const isEndTimeAfterStart = (start, end) => {
   if (!start || !end) {
     return false;
   }

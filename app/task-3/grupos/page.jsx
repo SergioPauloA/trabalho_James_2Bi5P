@@ -4,11 +4,10 @@ import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
 import { GroupFilters } from "@/components/task3/GroupFilters";
 import { GroupTable } from "@/components/task3/GroupTable";
-import { GrupoProjeto, GroupFiltersInput } from "@/types";
 import { canDeleteGrupo, deleteGrupo, getGrupos } from "@/services/grupoProjetoService";
 import { getErrorMessage } from "@/utils/errors";
 
-const initialFilters: GroupFiltersInput = {
+const initialFilters = {
   aluno: "",
   professorId: "",
   turmaId: "",
@@ -17,12 +16,12 @@ const initialFilters: GroupFiltersInput = {
 };
 
 export default function GruposPage() {
-  const [groups, setGroups] = useState<GrupoProjeto[]>([]);
+  const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [filters, setFilters] = useState<GroupFiltersInput>(initialFilters);
+  const [filters, setFilters] = useState(initialFilters);
 
-  const loadData = useCallback(async (activeFilters: GroupFiltersInput, showLoading = true) => {
+  const loadData = useCallback(async (activeFilters, showLoading = true) => {
     if (showLoading) {
       setLoading(true);
       setError("");
@@ -43,7 +42,7 @@ export default function GruposPage() {
     await loadData(filters);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id) => {
     setError("");
     try {
       const check = await canDeleteGrupo(id);

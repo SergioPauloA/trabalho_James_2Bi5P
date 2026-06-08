@@ -4,14 +4,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 import { AUTH_COOKIE_KEY, getToken, setToken, clearToken } from "@/utils/auth";
 import { appConfig } from "@/services/config";
 
-type AuthContextData = {
-  token: string | null;
-  isAuthenticated: boolean;
-  login: (token: string) => void;
-  logout: () => void;
-};
-
-const AuthContext = createContext<AuthContextData | undefined>(undefined);
+const AuthContext = createContext(undefined);
 
 const getInitialToken = () => {
   const existingToken = getToken();
@@ -26,14 +19,14 @@ const getInitialToken = () => {
   return null;
 };
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [token, setTokenState] = useState<string | null>(getInitialToken);
+export function AuthProvider({ children }) {
+  const [token, setTokenState] = useState(getInitialToken);
 
-  const value = useMemo<AuthContextData>(
+  const value = useMemo(
     () => ({
       token,
       isAuthenticated: !!token,
-      login: (newToken: string) => {
+      login: (newToken) => {
         setToken(newToken);
         setTokenState(newToken);
       },

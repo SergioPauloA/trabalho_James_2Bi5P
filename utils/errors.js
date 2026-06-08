@@ -1,4 +1,4 @@
-export const getErrorMessage = (error: unknown, fallback: string) => {
+export const getErrorMessage = (error, fallback) => {
   if (error instanceof Error && error.message.trim()) {
     return error.message;
   }

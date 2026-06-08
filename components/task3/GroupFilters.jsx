@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { getCatalogs } from "@/services/catalogService";
-import { CatalogData, GroupFiltersInput } from "@/types";
 
-const emptyCatalogs: CatalogData = {
+const emptyCatalogs = {
   cursos: [],
   periodosLetivos: [],
   turmas: [],
@@ -18,13 +17,8 @@ export function GroupFilters({
   onChange,
   onFilter,
   onClear,
-}: {
-  filters: GroupFiltersInput;
-  onChange: (filters: GroupFiltersInput) => void;
-  onFilter: () => void;
-  onClear: () => void;
 }) {
-  const [catalogs, setCatalogs] = useState<CatalogData>(emptyCatalogs);
+  const [catalogs, setCatalogs] = useState(emptyCatalogs);
 
   useEffect(() => {
     getCatalogs().then(setCatalogs).catch(() => setCatalogs(emptyCatalogs));

@@ -1,11 +1,6 @@
-import { GrupoProjeto, GrupoProjetoInput } from "@/types";
 import { isEndTimeAfterStart } from "@/utils/time";
 
-export const validateGrupoProjetoForm = (
-  input: GrupoProjetoInput,
-  existingGroups: GrupoProjeto[],
-  editingId?: string,
-): string => {
+export const validateGrupoProjetoForm = (input, existingGroups, editingId) => {
   if (!input.nome.trim()) {
     return "Informe o nome do grupo.";
   }

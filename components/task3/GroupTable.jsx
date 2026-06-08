@@ -1,12 +1,8 @@
 import Link from "next/link";
-import { GrupoProjeto } from "@/types";
 
 export function GroupTable({
   groups,
   onDelete,
-}: {
-  groups: GrupoProjeto[];
-  onDelete: (id: string) => Promise<void>;
 }) {
   if (groups.length === 0) {
     return <p>Nenhum grupo encontrado.</p>;

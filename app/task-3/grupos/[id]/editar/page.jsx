@@ -4,12 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GroupForm } from "@/components/task3/GroupForm";
-import { GrupoProjeto, GrupoProjetoInput } from "@/types";
 import { getGrupoById, updateGrupo } from "@/services/grupoProjetoService";
 
-export default function EditarGrupoPage({ params }: { params: Promise<{ id: string }> }) {
+export default function EditarGrupoPage({ params }) {
   const router = useRouter();
-  const [group, setGroup] = useState<GrupoProjeto | null>(null);
+  const [group, setGroup] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -28,7 +27,7 @@ export default function EditarGrupoPage({ params }: { params: Promise<{ id: stri
     load();
   }, [params]);
 
-  const handleSubmit = async (input: GrupoProjetoInput) => {
+  const handleSubmit = async (input) => {
     if (!group) {
       return;
     }

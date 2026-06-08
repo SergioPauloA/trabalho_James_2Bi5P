@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { appConfig } from "@/services/config";
 import { AUTH_COOKIE_KEY } from "@/utils/auth";
 
-export function middleware(request: NextRequest) {
+export function middleware(request) {
   if (appConfig.useMockAuth) {
     return NextResponse.next();
   }

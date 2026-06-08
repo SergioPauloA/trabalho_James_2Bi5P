@@ -3,13 +3,12 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { GroupForm } from "@/components/task3/GroupForm";
-import { GrupoProjetoInput } from "@/types";
 import { createGrupo } from "@/services/grupoProjetoService";
 
 export default function NovoGrupoPage() {
   const router = useRouter();
 
-  const handleSubmit = async (input: GrupoProjetoInput) => {
+  const handleSubmit = async (input) => {
     await createGrupo(input);
     router.push("/task-3/grupos");
   };

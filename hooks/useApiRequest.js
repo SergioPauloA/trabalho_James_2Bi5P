@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { getErrorMessage } from "@/utils/errors";
 
-export function useApiRequest<T>() {
+export function useApiRequest() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [data, setData] = useState<T | null>(null);
+  const [data, setData] = useState(null);
 
-  const execute = async (request: () => Promise<T>) => {
+  const execute = async (request) => {
     setLoading(true);
     setError("");
     try {

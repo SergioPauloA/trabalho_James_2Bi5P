@@ -9,7 +9,7 @@ export const getToken = () => {
   return window.localStorage.getItem(appConfig.authStorageKey || "jwt_token");
 };
 
-export const setToken = (token: string) => {
+export const setToken = (token) => {
   if (typeof window === "undefined") {
     return;
   }

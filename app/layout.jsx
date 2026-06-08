@@ -1,18 +1,13 @@
-import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/hooks/useAuth";
 import { AppShell } from "@/components/layouts/AppShell";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Sistema de Gestão de Projetos Integradores",
   description: "Frontend Next.js para gestão de projetos escolares",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
       <body>

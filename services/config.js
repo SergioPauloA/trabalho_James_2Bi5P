@@ -1,4 +1,4 @@
-const getBoolean = (value: string | undefined, fallback: boolean) => {
+const getBoolean = (value, fallback) => {
   if (value === undefined) {
     return fallback;
   }

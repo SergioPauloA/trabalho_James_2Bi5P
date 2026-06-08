@@ -1,7 +1,7 @@
 import { appConfig } from "@/services/config";
 import { getToken } from "@/utils/auth";
 
-const buildHeaders = (customHeaders?: HeadersInit) => {
+const buildHeaders = (customHeaders) => {
   const token = getToken();
   return {
     "Content-Type": "application/json",
@@ -10,7 +10,7 @@ const buildHeaders = (customHeaders?: HeadersInit) => {
   };
 };
 
-export async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
+export async function apiRequest(path, init) {
   const response = await fetch(`${appConfig.apiBaseUrl}${path}`, {
     ...init,
     headers: buildHeaders(init?.headers),
@@ -22,8 +22,8 @@ export async function apiRequest<T>(path: string, init?: RequestInit): Promise<T
   }
 
   if (response.status === 204) {
-    return undefined as T;
+    return undefined;
   }
 
-  return response.json() as Promise<T>;
+  return response.json();
 }
